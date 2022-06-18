@@ -1,0 +1,63 @@
+Name: Gopavaram Mohan Kumar
+Batch: April 15th, 2022
+Tutor: Raham Shaik
+Project Name: Integration of different tools with Jenkins
+Project Name: Integration of SonarQube with Jenkins for Code Analysis:
+1.	Configured SonarQube in the ec2 instance and started sonarqube with sonaradmin user to access the sonarqube.
+2.	Integrated SonarQube with Jenkins by using the slave and master-concept.
+3.	Installed all the prerequisites to the integration of sonarqube with Jenkins for code analysis.
+
+ 
+ 
+ 
+ 
+4.	Created a demo_app project and generate the token.
+ 
+5.	In the Global configuration added SonarQube scanner details.
+6.	In Jenkins > Manage Jenkins > Configure system added sonarqube details and authenticate with token created on the sonarqube
+ 
+
+ 
+7.	Created the New Pipe line job and added Pipeline Script.
+
+pipeline{
+	    agent any
+	    environment {
+	        PATH = "$PATH:/opt/apache-maven-3.8.2/bin"
+	    }
+	    stages{
+	       stage('GetCode')
+	            steps{
+	                git 'https://github.com/ravdy/javaloginapp.git'
+	            }
+	         }        
+	       stage('Build'){
+	            steps{
+	                sh 'mvn clean package'
+	            }
+	         }
+	        stage('SonarQube analysis') {
+	//    def scannerHome = tool 'SonarScanner 4.0';
+	        steps{
+	        withSonarQubeEnv('sonarqube-8.9') { 
+	        // If you have configured more than one global server connection, you can specify its name
+	//      sh "${scannerHome}/bin/sonar-scanner"
+	        sh "mvn sonar:sonar"
+	    }
+	        }
+	        }
+	       
+	    }
+	}
+8.	Build the code.
+
+ 
+9.	Coded Build Successfully.
+
+ 
+
+10.	Went to Sonarqube and checked demoapp_project and checked the code analysis.
+ 
+11.	Code analysis got successfully. 
+ 
+
